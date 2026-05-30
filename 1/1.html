@@ -42,6 +42,9 @@
     <div class="meta small" id="meta"></div>
   </div>
 
+  <!-- ⭐ ENGINE EINBINDEN -->
+  <script src="../anchor_engine.js"></script>
+
   <script>
     // --- Clone-ID ---
     const pageId = '1';
@@ -152,4 +155,10 @@
 
     // --- Buttons ---
     document.getElementById('regen').addEventListener('click', ()=> generate(false));
-    document.getElementById('
+    document.getElementById('regenSlow').addEventListener('click', ()=> generate(true));
+
+    // --- Initial ---
+    generate(true);
+
+    // ⭐ Station-Bewusstsein aktivieren
+    console.log(STATION_PRUEFUNG("1", "PI"));
