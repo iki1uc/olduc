@@ -64,4 +64,3 @@ window.SEEU_CREATE_CUBE = function(opts){
   console.log("Cube erzeugt:", projectId);
   return inst;
 };
-
