@@ -1,63 +1,83 @@
-// --- ANKER ENGINE v3 ---
-// Jeder Anker kennt: Modell, Modus, Überleg-Modus, Gegenhalt
+// --- ANKER ENGINE v4 ---
+// robust, mit Fallbacks, Gewichtung, Meta-Infos
 
-const ANKER_MODELL = {
-  PI:        "Analyse",
-  Gauner:    "Trick",
-  Ort:       "Raum",
-  Ereignis:  "Impuls",
-  Stimmung:  "Feld",
-  Trichter:  "Essenz"
+const ANKER_DEFS = {
+  PI: {
+    modell: "Analyse",
+    modus: "Koop",
+    ueber: "Meta",
+    next: "Gauner",
+    gewicht: 1.0
+  },
+  Gauner: {
+    modell: "Trick",
+    modus: "GegenKoop",
+    ueber: "Spiegel",
+    next: "Ort",
+    gewicht: 0.9
+  },
+  Ort: {
+    modell: "Raum",
+    modus: "Koop",
+    ueber: "Fixpunkt",
+    next: "Ereignis",
+    gewicht: 0.8
+  },
+  Ereignis: {
+    modell: "Impuls",
+    modus: "Koop",
+    ueber: "Auslöser",
+    next: "Stimmung",
+    gewicht: 1.1
+  },
+  Stimmung: {
+    modell: "Feld",
+    modus: "GegenKoop",
+    ueber: "Feldwechsel",
+    next: "Trichter",
+    gewicht: 1.2
+  },
+  Trichter: {
+    modell: "Essenz",
+    modus: "Koop",
+    ueber: "Verdichtung",
+    next: "PI",
+    gewicht: 1.3
+  }
 };
 
-const ANKER_MODUS = {
-  PI:        "Koop",
-  Gauner:    "GegenKoop",
-  Ort:       "Koop",
-  Ereignis:  "Koop",
-  Stimmung:  "GegenKoop",
-  Trichter:  "Koop"
-};
+const ANKER_FALLBACK = "PI";
 
-// Höhere Modi (Überleg-Modus)
-const ANKER_UEBER = {
-  PI:        "Meta",
-  Gauner:    "Spiegel",
-  Ort:       "Fixpunkt",
-  Ereignis:  "Auslöser",
-  Stimmung:  "Feldwechsel",
-  Trichter:  "Verdichtung"
-};
-
-// Domino-Kette
-const ANKER_NEXT = {
-  PI:        "Gauner",
-  Gauner:    "Ort",
-  Ort:       "Ereignis",
-  Ereignis:  "Stimmung",
-  Stimmung:  "Trichter",
-  Trichter:  "PI"
-};
+function normalizeAnchor(name){
+  if(!name || !ANKER_DEFS[name]) return ANKER_FALLBACK;
+  return name;
+}
 
 // --- ENGINE: Vollständige Prüfung ---
 function ANKER_CHECK(name) {
+  const key = normalizeAnchor(name);
+  const def = ANKER_DEFS[key];
+
   return {
-    name,
-    modell: ANKER_MODELL[name],
-    modus: ANKER_MODUS[name],
-    ueber: ANKER_UEBER[name],
-    next: ANKER_NEXT[name]
+    name: key,
+    modell: def.modell,
+    modus: def.modus,
+    ueber: def.ueber,
+    next: def.next,
+    gewicht: def.gewicht
   };
 }
 
 // --- ENGINE: Gegenhalten ---
 function ANKER_GEGENHALT(name) {
   const info = ANKER_CHECK(name);
+  const gegen = info.modus === "Koop" ? "GegenKoop" : "Koop";
 
   return {
-    anchor: name,
-    gegen: info.modus === "Koop" ? "GegenKoop" : "Koop",
-    ueber_spiegel: info.ueber
+    anchor: info.name,
+    gegen,
+    ueber_spiegel: info.ueber,
+    gewicht_spiegel: info.gewicht
   };
 }
 
@@ -67,16 +87,17 @@ function STATION_PRUEFUNG(stationName, anchorName) {
   const g = ANKER_GEGENHALT(anchorName);
 
   return {
-    station: stationName,
-    anchor: anchorName,
+    station: stationName || "unbekannt",
+    anchor: a.name,
     modell: a.modell,
     modus: a.modus,
     ueber: a.ueber,
     next: a.next,
+    gewicht: a.gewicht,
     gegenhalt: g.gegen,
-    ueber_spiegel: g.ueber_spiegel
+    ueber_spiegel: g.ueber_spiegel,
+    gewicht_spiegel: g.gewicht_spiegel
   };
 }
 
-console.log("Anker-Engine v3 geladen");
-
+console.log("Anker-Engine v4 geladen");
