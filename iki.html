@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>iki – Würfelinstanz</title>
+  <title>Instanz</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -12,32 +12,43 @@
       background: #0a0a0a;
       color: #e6e6e6;
       font-family: system-ui, sans-serif;
-      line-height: 1.5;
     }
     h1 {
       font-size: 20px;
-      font-weight: 500;
       margin-bottom: 12px;
-      letter-spacing: 0.5px;
     }
-    .note {
-      font-size: 13px;
-      opacity: 0.75;
-      margin-bottom: 24px;
+    .wrap {
+      margin-top: 16px;
+      padding: 12px;
+      border: 1px dashed rgba(255,255,255,0.2);
+      border-radius: 6px;
     }
   </style>
 </head>
 
 <body>
 
-  <h1>iki – Elegante Würfelinstanz</h1>
-  <div class="note">
-    Diese Seite erzeugt automatisch drei saubere, deterministische Klone (iki, one, uc).
-  </div>
+  <h1>Instanz</h1>
+
+  <div id="cubeWrap" class="wrap">Cube wird geladen…</div>
 
   <script src="remap.js"></script>
   <script src="cube_sim.js"></script>
-  <script src="clone_cubes_auto.js"></script>
+
+  <script>
+    // Einzelinstanz starten
+    if (typeof SEEU_CREATE_CUBE === "function") {
+      SEEU_CREATE_CUBE({
+        projectId: "NAME",
+        seed: 12345,
+        containerId: "cubeWrap",
+        chunksBase: "NAME",
+        version: "v1"
+      });
+    } else {
+      console.error("Cube konnte nicht gestartet werden.");
+    }
+  </script>
 
 </body>
 </html>
