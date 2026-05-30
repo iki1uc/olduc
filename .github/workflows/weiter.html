@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>weiter.html</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    :root{--bg:#000;--accent:#7dd3fc;--muted:#9ca3af;--text:#fff}
+    html,body{height:100%;margin:0}
+    body{
+      display:flex;align-items:center;justify-content:center;
+      background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;
+      padding:2rem;text-align:center;
+    }
+    .wrap{max-width:900px;width:100%}
+    .title{font-size:40px;margin-bottom:18px}
+    .card{background:transparent;padding:0 1rem}
+    .story{font-size:20px;line-height:1.45;max-width:820px;margin:0 auto;min-height:160px}
+    .reveal{opacity:0;transform:translateY(6px);transition:opacity .28s ease,transform .28s ease}
+    .reveal.visible{opacity:1;transform:none}
+    .controls{margin-top:28px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    button{background:#0b1220;color:var(--accent);border:1px solid #1f2937;padding:10px 18px;font-size:16px;cursor:pointer}
+    a{color:var(--accent);text-decoration:none;font-size:15px}
+    .meta{margin-top:14px;color:var(--muted);font-size:13px}
+    .small{font-size:16px;color:var(--muted)}
+    @media(min-width:900px){ .title{font-size:48px} .story{font-size:22px} }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="title">Fortsetzung</div>
+
+    <div class="card">
+      <div id="story" class="story reveal"></div>
+
+      <div class="controls">
+        <button id="regen">KlicK – neue Variante</button>
+        <button id="regenSlow">KlicK mit Pause</button>
+        <a href="iki.html">Zurück zum Anfang →</a>
+      </div>
+
+      <div class="meta small" id="meta"></div>
+    </div>
+  </div>
+
+  <script>
+    // --- Bausteine A und B (erweiterbar) ---
+    const A = {
+      PI: [
+        "PI ist alt genug, um Muster zu erkennen.",
+        "PI ist jung genug, um Fehler zu riskieren."
+      ],
+      Gauner: [
+        "Der Gauner nimmt immer den Seiteneingang.",
+        "Der Gauner tut so, als wäre alles Zufall."
+      ],
+      Orte: [
+        "im Dorf, wo jeder jeden kennt",
+        "am Meer, wo der Wind alles durcheinander bringt",
+        "auf dem Markt, wo Stimmen ineinander fallen"
+      ],
+      Ereignis: [
+        "sie begegnen sich zufällig",
+        "sie verpassen sich knapp",
+        "sie greifen nach demselben Gegenstand"
+      ],
+      Stimmung: [
+        "und es fühlt sich richtig an.",
+        "und ein Schatten bleibt zurück."
+      ],
+      Trichter: [
+        "Wenn es bleibt, hat es Gewicht.",
+        "Wenn es nicht bleibt, war es nicht wichtig."
+      ]
+    };
+
+    const B = {
+      PI: [
+        "PI steht zwischen zwei Generationen.",
+        "PI sieht Dinge, die andere übersehen."
+      ],
+      Gauner: [
+        "Der Gauner kennt jede Abkürzung im Leben.",
+        "Der Gauner kommt immer seitlich rein."
+      ],
+      Orte: [
+        "auf dem Bauernhof, zwischen Werkzeug und Stille",
+        "in der Werkstatt, wo Dinge wieder heil werden",
+        "in der Küche, wo Wärme und Chaos wohnen"
+      ],
+      Ereignis: [
+        "sie hören denselben Satz zur selben Zeit",
+        "sie stehen plötzlich im selben Licht"
+      ],
+      Stimmung: [
+        "und beide spüren Ruhe.",
+        "und keiner weiß, warum es falsch wirkt."
+      ],
+      Trichter: [
+        "Vielleicht war die Lektion nur ein Vorwand.",
+        "Manchmal ist die Begegnung wichtiger als der Grund."
+      ]
+    };
+
+    // --- Permutationen der drei Teile (iki, 1, uc) ---
+    const parts = ["iki","1","uc"];
+    function shuffle(arr){ return arr.slice().sort(()=>Math.random()-0.5) }
+
+    // --- Hilfsfunktionen ---
+    function r(a){ return a[Math.floor(Math.random()*a.length)] }
+    function pickSchiene(){ return Math.random() > 0.5 ? A : B }
+
+    // --- History im sessionStorage zur Vermeidung von Wiederholungen ---
+    const HIST_KEY = 'story_history_v1';
+    function loadHistory(){ try{ return JSON.parse(sessionStorage.getItem(HIST_KEY) || '[]') }catch(e){ return [] } }
+    function saveHistory(h){ sessionStorage.setItem(HIST_KEY, JSON.stringify(h)) }
+    function addToHistory(hash){
+      const h = loadHistory(); h.push(hash);
+      if(h.length>200) h.splice(0,h.length-200);
+      saveHistory(h);
+    }
+    function seenBefore(hash){ return loadHistory().includes(hash) }
+
+    // --- Erzeuge eine Story-Kombination, vermeide Wiederholung ---
+    function buildOnce(maxAttempts=40){
+      for(let i=0;i<maxAttempts;i++){
+        const S = pickSchiene();
+        const order = shuffle(parts);
+        const combo = {
+          schiene: S===A ? 'A' : 'B',
+          order: order.join('→'),
+          pi: r(S.PI),
+          gauner: r(S.Gauner),
+          ort: r(S.Orte),
+          ereignis: r(S.Ereignis),
+          stimmung: r(S.Stimmung),
+          trichter: r(S.Trichter)
+        };
+        const hash = btoa(JSON.stringify(combo));
+        if(!seenBefore(hash)){
+          addToHistory(hash);
+          return combo;
+        }
+      }
+      // falls exhausted, clear history und neu starten
+      sessionStorage.removeItem(HIST_KEY);
+      return buildOnce(10);
+    }
+
+    // --- Anzeige mit 750ms Pause vor Reveal ---
+    const storyEl = document.getElementById('story');
+    const metaEl = document.getElementById('meta');
+
+    function renderCombo(combo){
+      const html = `
+        <div class="small"><b>Reihenfolge</b>: ${combo.order}</div><br>
+        <div>${combo.pi}</div><br>
+        <div>${combo.gauner}</div><br>
+        <div class="small">${combo.ort}, ${combo.ereignis} ${combo.stimmung}</div><br>
+        <div style="margin-top:8px"><b>${combo.trichter}</b></div>
+      `;
+      storyEl.innerHTML = html;
+      metaEl.textContent = `Schiene ${combo.schiene} • erzeugt ${new Date().toLocaleTimeString()}`;
+      storyEl.classList.remove('visible');
+      void storyEl.offsetWidth;
+      setTimeout(()=> storyEl.classList.add('visible'), 10);
+    }
+
+    function generate(withPause=true){
+      const combo = buildOnce();
+      storyEl.classList.remove('visible');
+      if(withPause){
+        storyEl.innerHTML = '<div class="small" style="opacity:.6">...entspannen</div>';
+        setTimeout(()=> renderCombo(combo), 750);
+      } else {
+        renderCombo(combo);
+      }
+    }
+
+    // Buttons
+    document.getElementById('regen').addEventListener('click', ()=> generate(false));
+    document.getElementById('regenSlow').addEventListener('click', ()=> generate(true));
+
+    // initial
+    generate(true);
+  </script>
+</body>
+</html>
