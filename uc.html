@@ -5,36 +5,38 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>uc</title>
 <link rel="stylesheet" href="styles.css">
-<style>
-  body{font-family:Inter,Arial,sans-serif;margin:28px;text-align:center}
-  .symbol{font-size:56px;opacity:.8;margin-bottom:12px}
-  #content{max-width:980px;margin:18px auto;text-align:left}
-  .nav{display:flex;justify-content:center;gap:20px;margin:18px 0}
-</style>
 </head>
 <body>
 
-<div class="symbol">●○</div>
+<header class="header">
+  <div class="symbol">●○</div>
+  <nav class="nav">
+    <button class="btn" id="btnZacK">◀ ZacK</button>
+    <button class="btn" id="btn4ALL">◎ 4ALL</button>
+    <button class="btn" id="btnKlicK">▶ KlicK</button>
+  </nav>
+</header>
 
-<div class="nav">
-  <button class="btn" id="btnZacK">◀ ZacK</button>
-  <button class="btn" id="btn4ALL">◎ 4ALL</button>
-  <button class="btn" id="btnKlicK">▶ KlicK</button>
+<div class="controls">
+  <button class="btn" id="genAll">Generiere für alle</button>
+  <button class="btn" id="stabilize">Stabilisieren</button>
 </div>
 
-<div id="content">
+<main id="content">
   <p>Control Center Inhalte…</p>
-</div>
+</main>
 
 <!-- großer Würfel -->
-<div id="cubeWrap" style="margin-top:22px"></div>
+<div id="cubeWrap"><div id="cube" class="cube"></div></div>
 
 <script src="remap.js"></script>
 <script src="cube_sim.js"></script>
 <script>
-  // uc ist Control Center: hier kann generateComposition alle Seiten steuern
-  document.getElementById('btn4ALL').addEventListener('click', ()=> {
-    if(window.SEEU && window.SEEU.generateComposition) window.SEEU.generateComposition('all');
+  document.getElementById('genAll').addEventListener('click', ()=> SEEU.generateComposition('all'));
+  document.getElementById('stabilize').addEventListener('click', ()=> {
+    // reduce StorySlope and nudge PID to calm cube
+    SEEU.setStorySlope?.(0);
+    SEEU.setCubePID?.(3.5,0.1,1.0);
   });
 </script>
 </body>
