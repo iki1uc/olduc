@@ -1,43 +1,43 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>uc</title>
-<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <title>uc – Würfelinstanz</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 24px;
+      background: #0a0a0a;
+      color: #e6e6e6;
+      font-family: system-ui, sans-serif;
+      line-height: 1.5;
+    }
+    h1 {
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+    }
+    .note {
+      font-size: 13px;
+      opacity: 0.75;
+      margin-bottom: 24px;
+    }
+  </style>
 </head>
+
 <body>
 
-<header class="header">
-  <div class="symbol">●○</div>
-  <nav class="nav">
-    <button class="btn" id="btnZacK">◀ ZacK</button>
-    <button class="btn" id="btn4ALL">◎ 4ALL</button>
-    <button class="btn" id="btnKlicK">▶ KlicK</button>
-  </nav>
-</header>
+  <h1>uc – Elegante Würfelinstanz</h1>
+  <div class="note">
+    Diese Seite erzeugt automatisch drei saubere, deterministische Klone (iki, one, uc).
+  </div>
 
-<div class="controls">
-  <button class="btn" id="genAll">Generiere für alle</button>
-  <button class="btn" id="stabilize">Stabilisieren</button>
-</div>
+  <script src="remap.js"></script>
+  <script src="cube_sim.js"></script>
+  <script src="clone_cubes_auto.js"></script>
 
-<main id="content">
-  <p>Control Center Inhalte…</p>
-</main>
-
-<!-- großer Würfel -->
-<div id="cubeWrap"><div id="cube" class="cube"></div></div>
-
-<script src="remap.js"></script>
-<script src="cube_sim.js"></script>
-<script>
-  document.getElementById('genAll').addEventListener('click', ()=> SEEU.generateComposition('all'));
-  document.getElementById('stabilize').addEventListener('click', ()=> {
-    // reduce StorySlope and nudge PID to calm cube
-    SEEU.setStorySlope?.(0);
-    SEEU.setCubePID?.(3.5,0.1,1.0);
-  });
-</script>
 </body>
 </html>
