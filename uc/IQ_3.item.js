@@ -1,6 +1,3 @@
-// IQ_3.item.js
-// Advanced‑Item für uc – Stufe 3
-
 export const IQ_3_Item = {
     id: "IQ_3",
     label: "uc Advanced‑Cube",
@@ -22,4 +19,3 @@ export const IQ_3_Item = {
         })
     }
 };
-
