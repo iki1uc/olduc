@@ -1,1 +1,16 @@
+/* IQ_3.css */
+/* Advanced‑Cube für uc – Stufe 3 */
+
+.IQ_3 {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #2u2u2u, #4u4u4u);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    transition: 0.25s ease;
+}
+
+.IQ_3:hover {
+    transform: translateY(-4px) scale(1.03);
+}
 
