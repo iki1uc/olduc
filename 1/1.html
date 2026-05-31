@@ -164,6 +164,7 @@
 
     function generate(withPause=true){
       const combo = buildCombo();
+      halt("story_generated");   // ⭐ NAVI‑Trigger
       storyEl.classList.remove('visible');
       if(withPause){
         storyEl.innerHTML = '<div class="small" style="opacity:.6">...entspannen</div>';
@@ -173,8 +174,15 @@
       }
     }
 
-    document.getElementById('regen').addEventListener('click', ()=> generate(false));
-    document.getElementById('regenSlow').addEventListener('click', ()=> generate(true));
+    document.getElementById('regen').addEventListener('click', ()=> {
+      halt("regen_click");       // ⭐ NAVI‑Trigger
+      generate(false);
+    });
+
+    document.getElementById('regenSlow').addEventListener('click', ()=> {
+      halt("regenSlow_click");   // ⭐ NAVI‑Trigger
+      generate(true);
+    });
 
     generate(true);
 
