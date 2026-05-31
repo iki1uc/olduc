@@ -2,12 +2,64 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Testcube</title>
+  <title>Testcube – 静かな始まり</title>
+
   <style>
-    body { background:#000; color:#fff; font-family:system-ui; padding:20px; }
-    #cubeWrap_test { width:200px; height:200px; margin:40px auto; perspective:800px; }
-    .cube { width:100%; height:100%; position:relative; transform-style:preserve-3d; transition:transform .4s ease-out; background:#222; }
-    .face { position:absolute; width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:20px; background:#444; color:#fff; opacity:.9; }
+    body {
+      background:#000;
+      color:#fff;
+      font-family:system-ui, sans-serif;
+      padding:28px;
+      text-align:center;
+      letter-spacing:0.4px;
+    }
+
+    h1 {
+      opacity:0.88;
+      font-weight:400;
+      margin-bottom:20px;
+    }
+
+    /* ruhige japanische Eleganz */
+    .jp-note {
+      font-size:14px;
+      opacity:0.55;
+      margin-top:-10px;
+      margin-bottom:20px;
+    }
+
+    /* Cube */
+    #cubeWrap_test {
+      width:200px;
+      height:200px;
+      margin:40px auto;
+      perspective:900px;
+    }
+
+    .cube {
+      width:100%;
+      height:100%;
+      position:relative;
+      transform-style:preserve-3d;
+      transition:transform .45s ease-out;
+      background:#222;
+      border-radius:6px;
+    }
+
+    .face {
+      position:absolute;
+      width:100%;
+      height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:20px;
+      background:#444;
+      color:#fff;
+      opacity:.92;
+      border-radius:6px;
+    }
+
     .face-front  { transform:translateZ(100px); }
     .face-back   { transform:rotateY(180deg) translateZ(100px); }
     .face-right  { transform:rotateY(90deg) translateZ(100px); }
@@ -16,11 +68,15 @@
     .face-bottom { transform:rotateX(-90deg) translateZ(100px); }
   </style>
 </head>
+
 <body>
 
   <h1>Mini‑Testcube</h1>
+  <div class="jp-note">静かに回るものは、心を整える。</div>
+
   <div id="cubeWrap_test">wird geladen…</div>
 
+  <!-- Cube‑System -->
   <script src="cube_faces.js"></script>
   <script src="cube_loader.js"></script>
   <script src="seeu_engine.js"></script>
