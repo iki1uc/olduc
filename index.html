@@ -20,7 +20,6 @@
       margin-bottom:20px;
     }
 
-    /* ruhige japanische Eleganz */
     .jp-note {
       font-size:14px;
       opacity:0.55;
@@ -28,7 +27,6 @@
       margin-bottom:20px;
     }
 
-    /* Cube */
     #cubeWrap_test {
       width:200px;
       height:200px;
@@ -76,11 +74,63 @@
 
   <div id="cubeWrap_test">wird geladen…</div>
 
-  <!-- Cube‑System -->
+  <!-- ⭐ NAVI-HUD -->
+  <div id="NAVI" style="
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    background:rgba(0,0,0,0.45);
+    padding:10px 14px;
+    border-radius:10px;
+    font-family:monospace;
+    color:#fff;
+    z-index:99999;
+  ">
+    <div id="naviStatus">…</div>
+    <div id="naviDanger">Gefahr: 0</div>
+    <div id="naviEpoch">Epoche: jetzt</div>
+  </div>
+
+  <!-- ⭐ ENGINE -->
+  <script src="anchor_engine.js"></script>
+
+  <!-- ⭐ NAVI -->
+  <script src="1/NAVI.js"></script>
+
+  <!-- ⭐ IQ‑Item (Maxi‑Cube) -->
+  <script type="module" src="1/IQ_2.item.js"></script>
+
+  <!-- ⭐ Clone‑1 Bewusstsein -->
+  <script src="1/1.js"></script>
+
+  <!-- ⭐ Mini‑Cube System -->
   <script src="cube_faces.js"></script>
   <script src="cube_loader.js"></script>
   <script src="seeu_engine.js"></script>
   <script src="clone_cubes_auto.js"></script>
+
+  <!-- ⭐ halt() – Zentrale Ereignisleitung -->
+  <script>
+    function halt(eventName = "index_event") {
+      const e = {
+        source: "index",
+        anchor: "PI",
+        event: eventName,
+        time: Date.now()
+      };
+
+      if (window.NAVI && typeof NAVI.onEvent === "function") {
+        NAVI.onEvent(e);
+      }
+
+      return e;
+    }
+
+    // Mini‑Cube Interaktion → NAVI
+    document.addEventListener("click", () => {
+      halt("index_click");
+    });
+  </script>
 
 </body>
 </html>
