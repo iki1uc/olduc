@@ -6,6 +6,18 @@ window.SEEU = window.SEEU || {};
 window.SEEU_CLONES = window.SEEU_CLONES || [];
 
 // ---------------------------------------------------------
+// GLOBAL: applyImpulse -> verteilt an alle Clones
+// ---------------------------------------------------------
+window.SEEU.applyImpulse = function(ix, iy){
+  window.SEEU_CLONES.forEach(c=>{
+    if(typeof c.applyImpulse === 'function'){
+      c.applyImpulse(ix, iy);
+    }
+  });
+  console.log("SEEU: GLOBAL-Impulse verteilt:", ix, iy);
+};
+
+// ---------------------------------------------------------
 // CLONE REGISTRIERUNG
 // ---------------------------------------------------------
 window.SEEU_REGISTER_CLONE = function(inst){
@@ -71,4 +83,3 @@ window.SEEU_AUTO_SYNC = function(){
 };
 
 console.log("SEEU_AUTO_CONTROLLER.js geladen");
-
