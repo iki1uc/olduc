@@ -1,85 +1,47 @@
-// --- SEEU_AUTO_CONTROLLER.js ---
-// Vollständiges AUTO-Molekül für alle Cube-Instanzen
-// Kompletter Neuaufbau: keine Überschreibungen, keine Drift
+// SEEU_AUTO_CONTROLLER.js – 360° all4all identity
 
 window.SEEU = window.SEEU || {};
-window.SEEU_CLONES = window.SEEU_CLONES || [];
+window.SEEU_ITEMS = window.SEEU_ITEMS || new Map();
+window.SEEU_LOG = window.SEEU_LOG || [];
 
-// ---------------------------------------------------------
-// GLOBAL: applyImpulse -> verteilt an alle Clones
-// ---------------------------------------------------------
-window.SEEU.applyImpulse = function(ix, iy){
-  window.SEEU_CLONES.forEach(c=>{
-    if(typeof c.applyImpulse === 'function'){
-      c.applyImpulse(ix, iy);
-    }
+// 1) Item registrieren
+window.SEEU_REGISTER_ITEM = function(item){
+  if(!item?.id) return;
+  window.SEEU_ITEMS.set(item.id, item);
+  logChange('register', item.id, snapshot(item));
+};
+
+// 2) Änderung melden (von jedem Item aufrufbar)
+window.SEEU_ITEM_CHANGED = function(id){
+  const item = window.SEEU_ITEMS.get(id);
+  if(!item) return;
+  logChange('update', id, snapshot(item));
+};
+
+// 3) Molekül‑Snapshot (all4all)
+window.SEEU_SNAPSHOT_ALL = function(){
+  return [...window.SEEU_ITEMS.values()].map(snapshot);
+};
+
+// 4) Identity‑Check – harte Konstanz
+window.SEEU_IDENTITY_CHECK = function(id, fn){
+  const item = window.SEEU_ITEMS.get(id);
+  if(!item) return false;
+  return fn(snapshot(item));
+};
+
+// intern: Snapshot + Log
+function snapshot(item){
+  if(typeof item.snapshot === 'function') return item.snapshot();
+  // Fallback – flacher Clone
+  return JSON.parse(JSON.stringify(item));
+}
+
+function logChange(type, id, data){
+  window.SEEU_LOG.push({
+    type,
+    id,
+    data,
+    ts: Date.now()
   });
-  console.log("SEEU: GLOBAL-Impulse verteilt:", ix, iy);
-};
-
-// ---------------------------------------------------------
-// CLONE REGISTRIERUNG
-// ---------------------------------------------------------
-window.SEEU_REGISTER_CLONE = function(inst){
-  if(!inst) return;
-  window.SEEU_CLONES.push(inst);
-  console.log("SEEU: Clone registriert:", inst.id);
-};
-
-// ---------------------------------------------------------
-// AUTO: IMPULSE AN ALLE CLONES
-// ---------------------------------------------------------
-window.SEEU_AUTO_IMPULSE = function(ix, iy){
-  window.SEEU_CLONES.forEach(c=>{
-    if(c.applyImpulse){
-      c.applyImpulse(ix, iy);
-    }
-  });
-  console.log("SEEU: AUTO-Impulse verteilt:", ix, iy);
-};
-
-// ---------------------------------------------------------
-// AUTO: STATE AN ALLE CLONES
-// ---------------------------------------------------------
-window.SEEU_AUTO_STATE = function(state){
-  window.SEEU_CLONES.forEach(c=>{
-    if(c.setState){
-      c.setState(state);
-    }
-  });
-  console.log("SEEU: AUTO-State gesetzt:", state);
-};
-
-// ---------------------------------------------------------
-// AUTO: STORY-TRIGGER (optional)
-// ---------------------------------------------------------
-window.SEEU_AUTO_STORY = function(trigger){
-  window.SEEU_CLONES.forEach(c=>{
-    if(c.triggerStory){
-      c.triggerStory(trigger);
-    }
-  });
-  console.log("SEEU: AUTO-Story-Trigger:", trigger);
-};
-
-// ---------------------------------------------------------
-// AUTO: SYNC (Rotation angleichen)
-// ---------------------------------------------------------
-window.SEEU_AUTO_SYNC = function(){
-  if(window.SEEU_CLONES.length < 2) return;
-
-  const ref = window.SEEU_CLONES[0];
-
-  window.SEEU_CLONES.forEach(c=>{
-    if(c !== ref){
-      c.rotX = ref.rotX;
-      c.rotY = ref.rotY;
-      c.cube.style.transform =
-        `rotateX(${c.rotX}deg) rotateY(${c.rotY}deg)`;
-    }
-  });
-
-  console.log("SEEU: AUTO-Sync durchgeführt");
-};
-
-console.log("SEEU_AUTO_CONTROLLER.js geladen");
+}
