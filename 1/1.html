@@ -2,108 +2,52 @@
 <html lang="de">
 <head>
   <meta charset="utf-8">
-  <title>1 – Clone B</title>
+  <title>1 – Jetzt</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
-
+  <link rel="stylesheet" href="../core/core_hud.css">
   <style>
-    :root{--bg:#000;--accent:#7dd3fc;--muted:#9ca3af;--text:#fff}
-    html,body{height:100%;margin:0}
     body{
+      margin:0;padding:2rem;
+      background:#000;color:#fff;
+      font-family:system-ui,sans-serif;
       display:flex;align-items:center;justify-content:center;
-      background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;
-      padding:2rem;text-align:center;
+      text-align:center;
     }
     .wrap{max-width:900px;width:100%}
     .title{font-size:40px;margin-bottom:18px}
-    .story{font-size:20px;line-height:1.45;max-width:820px;margin:0 auto;min-height:160px}
-    .reveal{opacity:0;transform:translateY(6px);transition:opacity .28s ease,transform .28s ease}
-    .reveal.visible{opacity:1;transform:none}
+    .story{font-size:20px;line-height:1.45;min-height:160px}
     .controls{margin-top:28px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-    button{background:#0b1220;color:var(--accent);border:1px solid #1f2937;padding:10px 18px;font-size:16px;cursor:pointer}
-    a{color:var(--accent);text-decoration:none;font-size:15px}
-    .meta{margin-top:14px;color:var(--muted);font-size:13px}
-    .small{font-size:16px;color:var(--muted)}
+    button{background:#0b1220;color:#7dd3fc;border:1px solid #1f2937;padding:10px 18px;font-size:16px;cursor:pointer}
+    a{color:#7dd3fc;text-decoration:none;font-size:15px}
+    .meta{margin-top:14px;color:#9ca3af;font-size:13px}
+    .small{font-size:16px;color:#9ca3af}
   </style>
 </head>
-
 <body>
 
-  <!-- MOL_MASKEN (direkt nach <body>) -->
-  <div id="maskWelt" style="
-    position:fixed; bottom:20px; left:20px;
-    background:rgba(0,0,0,0.45); padding:10px 14px;
-    border-radius:10px; font-family:monospace; color:#fff; z-index:99999;">
-    <div>Instanz: <span id="maskInstanz">1</span></div>
-    <div>Ebene: <span id="maskEbene">PI</span></div>
-    <div>Epoche: <span id="maskEpoche">jetzt</span></div>
-  </div>
-
-  <!-- MOL_SCANNER (unter MOL_MASKEN) -->
-  <div id="maskScanner" style="
-    position:fixed; top:20px; left:50%; transform:translateX(-50%);
-    background:rgba(0,0,0,0.45); padding:10px 14px;
-    border-radius:10px; font-family:monospace; color:#fff;
-    display:flex; gap:14px; z-index:99999;">
-    <span id="scanZack" style="cursor:pointer">◀ ZacK</span>
-    <span id="scanME" style="cursor:pointer">◎ ME</span>
-    <span id="scanKlick" style="cursor:pointer">▶ KlicK</span>
-  </div>
-
-  <!-- MOL_EPOCHEN (rechts oben) -->
-  <div id="epochenHUD" style="
-    position:fixed; top:20px; right:20px;
-    background:rgba(0,0,0,0.45); padding:10px 14px;
-    border-radius:10px; font-family:monospace; color:#fff; z-index:99999;">
-    <div>future: <span id="epX">0</span></div>
-    <div>jetzt: <span id="epY">0</span></div>
-    <div>vergangen: <span id="epZ">0</span></div>
-  </div>
+  <div id="coreHUD"></div>
+  <script>
+    fetch("../core/core_hud.html")
+      .then(r=>r.text())
+      .then(h=>{ document.getElementById("coreHUD").innerHTML = h; });
+  </script>
 
   <div class="wrap">
-    <div class="title">Clone 1 – Fortsetzung</div>
-
-    <div id="story" class="story reveal"></div>
-
+    <div class="title">Clone 1 – Jetzt</div>
+    <div id="story" class="story"></div>
     <div class="controls">
       <button id="regen">KlicK – neue Variante</button>
       <button id="regenSlow">KlicK mit Pause</button>
-      <a href="../iki/iki.html">← iki</a>
-      <a href="../uc/uc.html">uc →</a>
+      <a href="../uc/index.html">← Vergangenheit</a>
+      <a href="../iki/index.html">Zukunft</a>
+      <a href="../index.html">Ereignishorizont →</a>
     </div>
-
     <div class="meta small" id="meta"></div>
   </div>
 
-  <!-- ⭐ NAVI-HUD (bleibt) -->
-  <div id="NAVI" style="
-    position:fixed;
-    bottom:20px;
-    right:20px;
-    background:rgba(0,0,0,0.45);
-    padding:10px 14px;
-    border-radius:10px;
-    font-family:monospace;
-    color:#fff;
-    z-index:99999;
-  ">
-    <div id="naviStatus">…</div>
-    <div id="naviDanger">Gefahr: 0</div>
-    <div id="naviEpoch">Epoche: jetzt</div>
-  </div>
-
-  <!-- ⭐ ENGINE -->
   <script src="../anchor_engine.js"></script>
-
-  <!-- ⭐ Clone‑1 Bewusstsein -->
-  <script src="1.js"></script>
-
-  <!-- ⭐ NAVI (falls du externe NAVI.js nutzt, bleibt; MOL_NAVI unten ist fallback) -->
-  <script src="NAVI.js"></script>
-
-  <!-- ⭐ Maxi‑Cube Item -->
   <script type="module" src="IQ_2.item.js"></script>
 
-  <!-- ⭐ Story‑Generator (dein Script, unverändert) -->
   <script>
     const pageId = '1';
 
@@ -137,8 +81,7 @@
         "Wenn es bleibt, hat es Gewicht.",
         "Wenn es nicht bleibt, war es nicht wichtig.",
         "Manchmal ist die Begegnung wichtiger als der Grund."
-      ],
-      weight:1
+      ]
     };
 
     try {
@@ -187,16 +130,11 @@
         '<div style="margin-top:6px"><b>'+c.trichter+'</b></div>';
 
       metaEl.textContent = 'Schiene '+c.schiene+' • erzeugt '+new Date().toLocaleTimeString();
-
-      storyEl.classList.remove('visible');
-      void storyEl.offsetWidth;
-      storyEl.classList.add('visible');
     }
 
     function generate(withPause=true){
       const combo = buildCombo();
-      halt("story_generated");   // ⭐ NAVI‑Trigger
-      storyEl.classList.remove('visible');
+      halt("story_generated");
       if(withPause){
         storyEl.innerHTML = '<div class="small" style="opacity:.6">...entspannen</div>';
         setTimeout(()=> render(combo), 750);
@@ -206,112 +144,24 @@
     }
 
     document.getElementById('regen').addEventListener('click', ()=> {
-      halt("regen_click");       // ⭐ NAVI‑Trigger
+      halt("regen_click");
       generate(false);
     });
 
     document.getElementById('regenSlow').addEventListener('click', ()=> {
-      halt("regenSlow_click");   // ⭐ NAVI‑Trigger
+      halt("regenSlow_click");
       generate(true);
     });
 
     generate(true);
-
-    console.log(typeof STATION_PRUEFUNG === "function" ? STATION_PRUEFUNG("1", "PI") : "STATION_PRUEFUNG not found");
+    if(typeof STATION_PRUEFUNG==="function"){ STATION_PRUEFUNG("1","PI"); }
   </script>
 
-  <!-- ⭐ halt() EINBAUEN (ganz unten) -->
-  <script>
-    function halt(eventName = "clone1_event") {
-      const lastEvent = {
-        clone: "1",
-        anchor: "PI",
-        event: eventName,
-        time: Date.now()
-      };
-
-      if (window.NAVI && typeof NAVI.onEvent === "function") {
-        NAVI.onEvent(lastEvent);
-      }
-
-      if (window.BigCube && typeof BigCube.onEvent === "function") {
-        BigCube.onEvent(lastEvent);
-      }
-
-      return lastEvent;
-    }
-  </script>
-
-  <!-- MOL_NAVI (fallback / core) -->
-  <script id="MOL_NAVI">
-  window.NAVI = window.NAVI || {
-    onEvent(e){
-      console.log("NAVI:", e);
-      let danger = 1;
-      let epoch = "jetzt";
-
-      if(e.type === "war") danger = 9;
-      if(e.type === "heart") danger = 0;
-      if(e.type === "future") epoch = "future";
-      if(e.type === "past") epoch = "vergangen";
-      if(e.anchor) {
-        if(e.anchor === "PI") epoch = "jetzt";
-        if(e.anchor === "Q2") epoch = "future";
-        if(e.anchor === "Q0") epoch = "vergangen";
-      }
-
-      const nd = document.getElementById("naviDanger");
-      const ne = document.getElementById("naviEpoch");
-      const ns = document.getElementById("naviStatus");
-      if(nd) nd.textContent = "Gefahr: " + danger;
-      if(ne) ne.textContent = "Epoche: " + epoch;
-      if(ns) ns.textContent =
-        danger >= 7 ? "⚠ Gefahr" :
-        danger <= 1 ? "🌿 Wohlbefinden" :
-        "… neutral";
-
-      if(window.BigCube && typeof BigCube.onEvent === "function") {
-        BigCube.onEvent(e);
-      }
-    }
-  };
-  </script>
-
-  <!-- MOL_BIGCUBE -->
-  <script id="MOL_BIGCUBE">
-  window.BigCube = window.BigCube || {
-    onEvent(e){
-      console.log("BigCube reagiert:", e);
-      const cube = document.querySelector(".cube") || document.getElementById("cubeWrap_test") || document.querySelector(".IQ_2");
-      if(!cube) return;
-      cube.style.transition = "transform .18s ease";
-      cube.style.transform = "scale(1.05)";
-      setTimeout(()=> { cube.style.transform = ""; }, 300);
-    }
-  };
-  </script>
-
-  <!-- MOL_SCANNER_LOGIK -->
-  <script id="MOL_SCANNER_LOGIK">
-  const AXIS = { x:0, y:0, z:0 };
-  function updateEpochen(){
-    const ex = document.getElementById("epX");
-    const ey = document.getElementById("epY");
-    const ez = document.getElementById("epZ");
-    if(ex) ex.textContent = AXIS.x;
-    if(ey) ey.textContent = AXIS.y;
-    if(ez) ez.textContent = AXIS.z;
-  }
-  document.getElementById("scanZack")?.addEventListener("click", ()=> {
-    AXIS.z++; updateEpochen(); NAVI.onEvent({ type:"past", anchor: "PI", time: Date.now() });
-  });
-  document.getElementById("scanME")?.addEventListener("click", ()=> {
-    AXIS.y++; updateEpochen(); NAVI.onEvent({ type:"now", anchor: "PI", time: Date.now() });
-  });
-  document.getElementById("scanKlick")?.addEventListener("click", ()=> {
-    AXIS.x++; updateEpochen(); NAVI.onEvent({ type:"future", anchor: "PI", time: Date.now() });
-  });
-  </script>
+  <script src="../core/core_halt.js"></script>
+  <script src="../core/core_navi.js"></script>
+  <script src="../core/core_bigcube.js"></script>
+  <script src="../core/core_scanner.js"></script>
+  <script src="../core/core_station.js"></script>
 
 </body>
 </html>
