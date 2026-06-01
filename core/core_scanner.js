@@ -1,34 +1,19 @@
-// ⭐ Scanner / Epochen‑Achsen
-window.AXIS = window.AXIS || { x: 0, y: 0, z: 0 };
+const AXIS = {x:0,y:0,z:0};
 
-function updateEpochen() {
-  const ex = document.getElementById("epX");
-  const ey = document.getElementById("epY");
-  const ez = document.getElementById("epZ");
-  if (ex) ex.textContent = AXIS.x;
-  if (ey) ey.textContent = AXIS.y;
-  if (ez) ez.textContent = AXIS.z;
+function updateEpochen(){
+  document.getElementById("epX").textContent = AXIS.x;
+  document.getElementById("epY").textContent = AXIS.y;
+  document.getElementById("epZ").textContent = AXIS.z;
 }
 
-window.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("scanZack")?.addEventListener("click", () => {
-    AXIS.z++;
-    updateEpochen();
-    NAVI.onEvent({ type: "past", anchor: window.PAGE_ANCHOR || "PI", time: Date.now() });
-  });
+document.getElementById("scanZack").onclick = ()=>{
+  AXIS.z++; updateEpochen(); halt("past");
+};
 
-  document.getElementById("scanME")?.addEventListener("click", () => {
-    AXIS.y++;
-    updateEpochen();
-    NAVI.onEvent({ type: "now", anchor: window.PAGE_ANCHOR || "PI", time: Date.now() });
-  });
+document.getElementById("scanME").onclick = ()=>{
+  AXIS.y++; updateEpochen(); halt("now");
+};
 
-  document.getElementById("scanKlick")?.addEventListener("click", () => {
-    AXIS.x++;
-    updateEpochen();
-    NAVI.onEvent({ type: "future", anchor: window.PAGE_ANCHOR || "PI", time: Date.now() });
-  });
-
-  updateEpochen();
-});
-
+document.getElementById("scanKlick").onclick = ()=>{
+  AXIS.x++; updateEpochen(); halt("future");
+};
