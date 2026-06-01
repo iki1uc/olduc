@@ -1,7 +1,7 @@
 import { EVENTS } from "./events.js";
 
 export const MAERCHEN = {
-    pool: [
+    maerchenPool: [
         "Es war einmal ein Funke, der größer war als die Nacht.",
         "Im Schatten einer alten Straße begann etwas Neues zu atmen.",
         "Ein kleiner Fehler wurde zu einer großen Wahrheit.",
@@ -12,20 +12,34 @@ export const MAERCHEN = {
         "Ein Augenblick wurde zu einer ganzen Geschichte."
     ],
 
-    r(){
-        return this.pool[Math.floor(Math.random()*this.pool.length)];
-    },
+    konsequenzPool: [
+        "Und seitdem trägt jemand ein Licht, das vorher nicht da war.",
+        "Und eine Entscheidung wurde klarer, als sie je zuvor war.",
+        "Und etwas Altes verlor seine Macht.",
+        "Und ein neuer Weg wurde sichtbar.",
+        "Und ein Fehler wurde zu einer Richtung.",
+        "Und ein Schatten wurde kleiner.",
+        "Und ein Herz wurde leichter.",
+        "Und ein Kreis schloss sich."
+    ],
 
-    start(){
+    r(a){ return a[Math.floor(Math.random()*a.length)] },
+
+    fire(){
+        const text = this.r(this.maerchenPool);
+        const folge = this.r(this.konsequenzPool);
+
         EVENTS.trigger("maerchen_output", {
-            text: this.r(),
+            text,
+            folge,
             time: Date.now()
         });
     }
 };
 
-// reagiert auf JEDE Technik
-EVENTS.on("technik_output", () => MAERCHEN.start());
-EVENTS.on("technik_start", () => MAERCHEN.start());
-EVENTS.on("ueber_anker_signal", () => MAERCHEN.start());
-
+// Reagiert auf ALLES
+EVENTS.on("technik_output", () => MAERCHEN.fire());
+EVENTS.on("technik_start", () => MAERCHEN.fire());
+EVENTS.on("ueber_anker_signal", () => MAERCHEN.fire());
+EVENTS.on("all4all_start", () => MAERCHEN.fire());
+EVENTS.on("cube_live", () => MAERCHEN.fire());
