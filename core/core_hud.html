@@ -1,59 +1,45 @@
-<!-- ⭐ CORE HUD: NAVI + Epochen + Masken -->
 <div id="coreHUD_wrap">
 
   <!-- Instanz / Ebene / Epoche -->
-  <div id="maskWelt" style="
-    position:fixed; bottom:20px; left:20px;
-    background:rgba(0,0,0,0.45); padding:10px 14px;
-    border-radius:10px; font-family:monospace; color:#fff; z-index:99999;">
+  <div id="maskWelt" class="coreBox">
     <div>Instanz: <span id="maskInstanz">?</span></div>
-    <div>Ebene: <span id="maskEbene">?</span></div>
+    <div>Ebene: <span id="maskEbene">PI</span></div>
     <div>Epoche: <span id="maskEpoche">jetzt</span></div>
 
-    <!-- ⭐ Der neue Kreis -->
-    <div id="corePulse" style="
-      margin-top:6px;
-      width:14px; height:14px;
-      border:1px solid #fff;
-      border-radius:50%;
-      display:flex; align-items:center; justify-content:center;
-      font-size:10px; color:#fff;
-    "></div>
+    <!-- Puls -->
+    <div id="corePulse" class="pulse"></div>
   </div>
 
   <!-- Scanner -->
-  <div id="maskScanner" style="
-    position:fixed; top:20px; left:50%; transform:translateX(-50%);
-    background:rgba(0,0,0,0.45); padding:10px 14px;
-    border-radius:10px; font-family:monospace; color:#fff;
-    display:flex; gap:14px; z-index:99999;">
-    <span id="scanZack" style="cursor:pointer">◀ ZacK</span>
-    <span id="scanME" style="cursor:pointer">◎ ME</span>
-    <span id="scanKlick" style="cursor:pointer">▶ KlicK</span>
+  <div id="maskScanner" class="coreBox scanner">
+    <span id="scanZack">◀ ZacK</span>
+    <span id="scanME">◎ ME</span>
+    <span id="scanKlick">▶ KlicK</span>
   </div>
 
-  <!-- Epochen HUD -->
-  <div id="epochenHUD" style="
-    position:fixed; top:20px; right:20px;
-    background:rgba(0,0,0,0.45); padding:10px 14px;
-    border-radius:10px; font-family:monospace; color:#fff; z-index:99999;">
+  <!-- Epochen -->
+  <div id="epochenHUD" class="coreBox">
     <div>future: <span id="epX">0</span></div>
     <div>jetzt: <span id="epY">0</span></div>
     <div>vergangen: <span id="epZ">0</span></div>
   </div>
 
-  <!-- NAVI HUD -->
-  <div id="NAVI" style="
-    position:fixed;
-    bottom:20px;
-    right:20px;
-    background:rgba(0,0,0,0.45);
-    padding:10px 14px;
-    border-radius:10px;
-    font-family:monospace;
-    color:#fff;
-    z-index:99999;
-  ">
+  <!-- Navigation -->
+  <div id="coreNav" class="coreBox nav">
+    <a href="/uc/uc.html">Vergangenheit</a> |
+    <a href="/1/1.html">Jetzt</a> |
+    <a href="/iki/iki.html">Zukunft</a> |
+    <a href="/index.html">Ereignishorizont</a>
+  </div>
+
+  <!-- Resümee -->
+  <div id="coreRes" class="coreBox nav">
+    <span id="resSchwester">Schwester</span> |
+    <span id="resKonseq">Konsequenz</span>
+  </div>
+
+  <!-- NAVI -->
+  <div id="NAVI" class="coreBox navi">
     <div id="naviStatus">…</div>
     <div id="naviDanger">Gefahr: 0</div>
     <div id="naviEpoch">Epoche: jetzt</div>
