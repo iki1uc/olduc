@@ -13,8 +13,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     suspicious.forEach(word => {
         if(html.includes(word)){
-            ERROR_MONITOR.report("EDGE_INJECTION", "Browser hat Tab-Metadaten in die Datei geschrieben.");
+            ERROR_MONITOR.report(
+                "EDGE_INJECTION",
+                "Edge hat Tab-Metadaten in die Datei geschrieben."
+            );
         }
     });
 });
-
