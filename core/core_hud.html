@@ -1,1 +1,53 @@
+<!-- ⭐ CORE HUD: NAVI + Epochen + Masken -->
+<div id="coreHUD_wrap">
+
+  <!-- Instanz / Ebene / Epoche -->
+  <div id="maskWelt" style="
+    position:fixed; bottom:20px; left:20px;
+    background:rgba(0,0,0,0.45); padding:10px 14px;
+    border-radius:10px; font-family:monospace; color:#fff; z-index:99999;">
+    <div>Instanz: <span id="maskInstanz">?</span></div>
+    <div>Ebene: <span id="maskEbene">?</span></div>
+    <div>Epoche: <span id="maskEpoche">jetzt</span></div>
+  </div>
+
+  <!-- Scanner -->
+  <div id="maskScanner" style="
+    position:fixed; top:20px; left:50%; transform:translateX(-50%);
+    background:rgba(0,0,0,0.45); padding:10px 14px;
+    border-radius:10px; font-family:monospace; color:#fff;
+    display:flex; gap:14px; z-index:99999;">
+    <span id="scanZack" style="cursor:pointer">◀ ZacK</span>
+    <span id="scanME" style="cursor:pointer">◎ ME</span>
+    <span id="scanKlick" style="cursor:pointer">▶ KlicK</span>
+  </div>
+
+  <!-- Epochen HUD -->
+  <div id="epochenHUD" style="
+    position:fixed; top:20px; right:20px;
+    background:rgba(0,0,0,0.45); padding:10px 14px;
+    border-radius:10px; font-family:monospace; color:#fff; z-index:99999;">
+    <div>future: <span id="epX">0</span></div>
+    <div>jetzt: <span id="epY">0</span></div>
+    <div>vergangen: <span id="epZ">0</span></div>
+  </div>
+
+  <!-- NAVI HUD -->
+  <div id="NAVI" style="
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    background:rgba(0,0,0,0.45);
+    padding:10px 14px;
+    border-radius:10px;
+    font-family:monospace;
+    color:#fff;
+    z-index:99999;
+  ">
+    <div id="naviStatus">…</div>
+    <div id="naviDanger">Gefahr: 0</div>
+    <div id="naviEpoch">Epoche: jetzt</div>
+  </div>
+
+</div>
 
