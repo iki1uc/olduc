@@ -1,136 +1,127 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <title>Testcube – 静かな始まり</title>
-
+  <meta charset="utf-8">
+  <title>Ereignishorizont – root</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="core/core_hud.css">
   <style>
-    body {
-      background:#000;
-      color:#fff;
-      font-family:system-ui, sans-serif;
-      padding:28px;
+    body{
+      margin:0;padding:2rem;
+      background:#000;color:#fff;
+      font-family:system-ui,sans-serif;
+      display:flex;align-items:center;justify-content:center;
       text-align:center;
-      letter-spacing:0.4px;
     }
-
-    h1 {
-      opacity:0.88;
-      font-weight:400;
-      margin-bottom:20px;
-    }
-
-    .jp-note {
-      font-size:14px;
-      opacity:0.55;
-      margin-top:-10px;
-      margin-bottom:20px;
-    }
-
-    #cubeWrap_test {
-      width:200px;
-      height:200px;
-      margin:40px auto;
-      perspective:900px;
-    }
-
-    .cube {
-      width:100%;
-      height:100%;
-      position:relative;
-      transform-style:preserve-3d;
-      transition:transform .45s ease-out;
-      background:#222;
-      border-radius:6px;
-    }
-
-    .face {
-      position:absolute;
-      width:100%;
-      height:100%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:20px;
-      background:#444;
-      color:#fff;
-      opacity:.92;
-      border-radius:6px;
-    }
-
-    .face-front  { transform:translateZ(100px); }
-    .face-back   { transform:rotateY(180deg) translateZ(100px); }
-    .face-right  { transform:rotateY(90deg) translateZ(100px); }
-    .face-left   { transform:rotateY(-90deg) translateZ(100px); }
-    .face-top    { transform:rotateX(90deg) translateZ(100px); }
-    .face-bottom { transform:rotateX(-90deg) translateZ(100px); }
+    .wrap{max-width:900px;width:100%}
+    .title{font-size:40px;margin-bottom:18px}
+    .story{font-size:20px;line-height:1.45;min-height:160px}
+    .controls{margin-top:28px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    button{background:#0b1220;color:#7dd3fc;border:1px solid #1f2937;padding:10px 18px;font-size:16px;cursor:pointer}
+    a{color:#7dd3fc;text-decoration:none;font-size:15px}
+    .meta{margin-top:14px;color:#9ca3af;font-size:13px}
+    .small{font-size:16px;color:#9ca3af}
   </style>
 </head>
-
 <body>
 
-  <h1>Mini‑Testcube</h1>
-  <div class="jp-note">静かに回るものは、心を整える。</div>
+  <!-- CORE HUD -->
+  <div id="coreHUD"></div>
+  <script>
+    fetch("core/core_hud.html")
+      .then(r=>r.text())
+      .then(h=>{ document.getElementById("coreHUD").innerHTML = h; });
+  </script>
 
-  <div id="cubeWrap_test">wird geladen…</div>
-
-  <!-- ⭐ NAVI-HUD -->
-  <div id="NAVI" style="
-    position:fixed;
-    bottom:20px;
-    right:20px;
-    background:rgba(0,0,0,0.45);
-    padding:10px 14px;
-    border-radius:10px;
-    font-family:monospace;
-    color:#fff;
-    z-index:99999;
-  ">
-    <div id="naviStatus">…</div>
-    <div id="naviDanger">Gefahr: 0</div>
-    <div id="naviEpoch">Epoche: jetzt</div>
+  <div class="wrap">
+    <div class="title">Ereignishorizont – Dinge, die man nie vergisst</div>
+    <div id="story" class="story"></div>
+    <div class="controls">
+      <button id="regen">KlicK – neue Variante</button>
+      <button id="regenSlow">KlicK mit Pause</button>
+      <a href="uc/index.html">← Vergangenheit</a>
+      <a href="1/index.html">Jetzt</a>
+      <a href="iki/index.html">Zukunft →</a>
+    </div>
+    <div class="meta small" id="meta"></div>
   </div>
 
-  <!-- ⭐ ENGINE -->
+  <!-- ENGINE -->
   <script src="anchor_engine.js"></script>
 
-  <!-- ⭐ NAVI -->
-  <script src="1/NAVI.js"></script>
+  <!-- PAGE SCRIPT (root) -->
+  <script type="module">
+    const pageId = "root";
 
-  <!-- ⭐ IQ‑Item (Maxi‑Cube) -->
-  <script type="module" src="1/IQ_2.item.js"></script>
+    const pool = {
+      core:[
+        "Es gibt Momente, die den Rest des Lebens einfärben.",
+        "Manche Sekunden sind schwerer als ganze Jahre.",
+        "Ein Ereignis kann eine ganze Biografie knicken oder gerade ziehen."
+      ],
+      ort:[
+        "am Rand einer Straße, die du nie wieder betreten willst",
+        "in einem Zimmer, das in deinem Kopf weiter existiert",
+        "zwischen zwei Sätzen, die nie zurückgenommen wurden"
+      ],
+      stimmung:[
+        "und seitdem ist nichts mehr ganz neutral.",
+        "und du weißt, dass es nie wieder so wird wie davor.",
+        "und du trägst es, ob du willst oder nicht."
+      ],
+      trichter:[
+        "Was du nie vergisst, formt, was du nie wieder zulässt.",
+        "Manche Grenzen entstehen in einem einzigen Augenblick.",
+        "Nicht jedes Ereignis ist fair – aber jedes hinterlässt eine Richtung."
+      ]
+    };
 
-  <!-- ⭐ Clone‑1 Bewusstsein -->
-  <script src="1/1.js"></script>
+    function r(a){ return a[Math.floor(Math.random()*a.length)] }
 
-  <!-- ⭐ Mini‑Cube System -->
-  <script src="cube_faces.js"></script>
-  <script src="cube_loader.js"></script>
-  <script src="seeu_engine.js"></script>
-  <script src="clone_cubes_auto.js"></script>
+    const storyEl = document.getElementById("story");
+    const metaEl  = document.getElementById("meta");
 
-  <!-- ⭐ halt() – Zentrale Ereignisleitung -->
-  <script>
-    function halt(eventName = "index_event") {
-      const e = {
-        source: "index",
-        anchor: "PI",
-        event: eventName,
-        time: Date.now()
+    function buildCombo(){
+      return {
+        kern: r(pool.core),
+        ort: r(pool.ort),
+        stimmung: r(pool.stimmung),
+        trichter: r(pool.trichter)
       };
-
-      if (window.NAVI && typeof NAVI.onEvent === "function") {
-        NAVI.onEvent(e);
-      }
-
-      return e;
     }
 
-    // Mini‑Cube Interaktion → NAVI
-    document.addEventListener("click", () => {
-      halt("index_click");
-    });
+    function render(c){
+      storyEl.innerHTML =
+        '<div>'+c.kern+'</div><br>'+
+        '<div class="small">'+c.ort+' '+c.stimmung+'</div><br>'+
+        '<div style="margin-top:6px"><b>'+c.trichter+'</b></div>';
+      metaEl.textContent = 'root • '+new Date().toLocaleTimeString();
+    }
+
+    function generate(withPause=true){
+      const combo = buildCombo();
+      halt("root_story");
+      if(withPause){
+        storyEl.innerHTML = '<div class="small" style="opacity:.6">…Ereignis sortiert sich</div>';
+        setTimeout(()=>render(combo),750);
+      } else {
+        render(combo);
+      }
+    }
+
+    document.getElementById("regen").addEventListener("click", ()=>{ halt("root_click_fast"); generate(false); });
+    document.getElementById("regenSlow").addEventListener("click", ()=>{ halt("root_click_slow"); generate(true); });
+
+    generate(true);
+    if(typeof STATION_PRUEFUNG==="function"){ STATION_PRUEFUNG("root","PI"); }
   </script>
+
+  <!-- CORE LOGIK -->
+  <script src="core/core_halt.js"></script>
+  <script src="core/core_navi.js"></script>
+  <script src="core/core_bigcube.js"></script>
+  <script src="core/core_scanner.js"></script>
+  <script src="core/core_station.js"></script>
 
 </body>
 </html>
