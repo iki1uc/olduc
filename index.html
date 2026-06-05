@@ -1,111 +1,30 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-<meta charset="UTF-8">
-<title>iki1uc – re6²D Scan</title>
-<style>
-  body {
-    background: #111;
-    color: #eee;
-    font-family: Consolas, monospace;
-    padding: 20px;
-  }
-  #output {
-    white-space: pre-wrap;
-    background: #000;
-    padding: 20px;
-    border: 1px solid #333;
-    margin-top: 20px;
-    min-height: 200px;
-  }
-  .btn {
-    padding: 10px 20px;
-    margin: 5px;
-    background: #222;
-    border: 1px solid #444;
-    color: #eee;
-    cursor: pointer;
-  }
-  .btn:hover {
-    background: #333;
-  }
-</style>
-</head>
-
-<body>
-
-<h2>iki1uc – SCAN + Toolomat</h2>
-<p>Modus wählen → Datei aus <b>re6²D</b> laden → anzeigen.</p>
-
-<!-- TOOLOMAT BUTTONS -->
-<button class="btn" onclick="cycleStory('A')">A</button>
-<button class="btn" onclick="cycleStory('B')">B</button>
-<button class="btn" onclick="cycleStory('C')">C</button>
-
-<div id="output">Bereit…</div>
-
 <script>
-// ---------------------------------------------------------
-// TOOLOMAT STORIES
-// ---------------------------------------------------------
-const stories = {
-  A: {
-    title: "Märchen A – Die drei Achsen",
-    full: "Es war einmal ein System mit drei Achsen, das nie wusste, wer führen darf...",
-    r1: "Resümee 1: Drei Achsen ohne Master führen zu Chaos.",
-    r2: "Resümee 2: Erst als eine Achse Master wurde, lief die Sau."
-  },
-  B: {
-    title: "Märchen B – Der stille Modus",
-    full: "Ein Modus war so leise, dass niemand merkte, dass er alles steuerte...",
-    r1: "Resümee 1: Unsichtbare Kontrolle ist auch Kontrolle.",
-    r2: "Resümee 2: Sichtbare UI ohne Modus ist nur Deko."
-  },
-  C: {
-    title: "Märchen C – Der geteilte Bildschirm",
-    full: "Ein Bildschirm wurde in drei Teile geteilt, doch nur einer bekam Aufmerksamkeit...",
-    r1: "Resümee 1: Jeder Bereich braucht eine Aufgabe.",
-    r2: "Resümee 2: Gleiches Layout, ungleiche Bedeutung."
-  }
-};
-
-const state = { A:0, B:0, C:0 }; // 0=full,1=r1,2=r2
-
-// ---------------------------------------------------------
-// SCAN-MAP → welche Datei aus re6²D geladen wird
-// ---------------------------------------------------------
-const scanMap = {
-  A: "3x1.json",
-  B: "3x4.json",
-  C: "3x7.json"
-};
-
-// ---------------------------------------------------------
-// LOADER → lädt Datei aus re6²D
-// ---------------------------------------------------------
-async function loadX(file) {
-  try {
-    const data = await fetch(`re6²D/${file}`).then(r => r.json());
-    document.getElementById("output").textContent +=
-      "\n\n--- SCAN: " + file + " ---\n" +
-      JSON.stringify(data, null, 2);
-  } catch (e) {
-    document.getElementById("output").textContent +=
-      `\n\n[FEHLER] Datei nicht gefunden: ${file}`;
-  }
+async function load48() {
+  const res = await fetch("48.json");
+  const data = await res.json();
+  window.PERIUM = data.modules;
 }
 
-// ---------------------------------------------------------
-// TOOLOMAT → zeigt Story + triggert SCAN
-// ---------------------------------------------------------
-function cycleStory(key) {
-  const s = stories[key];
-  const step = state[key] % 3;
+function pickContent(id) {
+  return window.PERIUM.content.find(c => c.id === id);
+}
 
-  let text = "";
-  if (step === 0) text = s.title + "\n\n" + s.full;
-  if (step === 1) text = s.title + "\n\n" + s.r1;
-  if (step === 2) text = s.title + "\n\n" + s.r2;
+function pickLanguage(id) {
+  return window.PERIUM.language.find(l => l.id === id);
+}
 
-  document.getElementById("output").textContent =
-    `[${key}] Step
+function pickPerspective(id) {
+  return window.PERIUM.perspective.find(p => p.id === id);
+}
+
+function renderX4(content, lang, persp) {
+  const meta = "Unmögliches minimieren. Mögliches maximieren.";
+
+  document.getElementById("slot1").innerText = content.title;
+  document.getElementById("slot2").innerText = lang.label;
+  document.getElementById("slot3").innerText = persp.label;
+  document.getElementById("slot4").innerText = meta;
+}
+
+window.onload = load48;
+</script>
