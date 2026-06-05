@@ -1,1 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>3×X – Übersetzer</title>
+<style>
+body{background:#000;color:#0f0;font-family:monospace;}
+pre{background:#111;padding:12px;white-space:pre-wrap;}
+button{padding:6px 12px;background:#111;border:1px solid #333;color:#0f0;}
+</style>
+</head>
+<body>
+
+<h1>3×X – Übersetzer</h1>
+<button onclick="translate()">ÜBERSETZEN</button>
+
+<pre id="out"></pre>
+
+<script>
+function translate(){
+  const raw = localStorage.getItem("AXIS");
+  if(!raw){
+    out.textContent = "Keine AXIS-Daten gefunden.";
+    return;
+  }
+
+  const A = JSON.parse(raw);
+
+  const epoch = A.x + A.y + A.z;
+  const direction = A.x > A.z ? "forward" :
+                    A.z > A.x ? "backward" : "neutral";
+
+  const height = A.y > 0 ? "up" :
+                 A.y < 0 ? "down" : "level";
+
+  const cylinder =
+    A.x >= A.y && A.x >= A.z ? "X‑Zylinder" :
+    A.y >= A.x && A.y >= A.z ? "Y‑Zylinder" :
+                               "Z‑Zylinder";
+
+  out.textContent =
+`=== 3×X MATRIX ===
+Achsen:
+  X = ${A.x}
+  Y = ${A.y}
+  Z = ${A.z}
+
+Epoche:
+  Summe = ${epoch}
+
+Richtung:
+  ${direction}
+
+Höhe:
+  ${height}
+
+Zylinder:
+  ${cylinder}
+`;
+}
+</script>
+
+</body>
+</html>
 
