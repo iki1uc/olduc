@@ -1,62 +1,52 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <title>3X0 UI‑Scan</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
-        .block {
-            background: white;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-        }
-        .title {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .content {
-            font-size: 15px;
-            line-height: 1.4;
-        }
-    </style>
-</head>
+function interpret(input){
+  const D = {
+    mech: ["3x6","3x9","PI-3x9","P-3xX"],
+    cmp: ["3x4","3x1","parse3x1"],
+    time: ["TIME-3x11","TIME-3x10","TIME-3x5"],
+    meta: ["3x13","3x12","3x11","3x10"],
+    op: ["AXXX","3x3","3x2","3x1"],
+    rt: ["AXIS","borgProtocol"]
+  };
 
-<body>
+  const parts = input.split("+").map(s=>s.trim());
+  const found = [];
 
-    <!-- BLOCK 1: UI-KOPF -->
-    <div class="block">
-        <div class="title">UI‑Kopf</div>
-        <div class="content">
-            UI‑Seite: <span id="uiName">–</span><br>
-            Status: sichtbar<br>
-            Hinweis: Dieser Scan bewertet nichts, er zeigt nur die Oberfläche
-        </div>
-    </div>
+  for(const p of parts){
+    let matched = false;
+    for(const key in D){
+      if(D[key].includes(p)){
+        found.push(key);
+        matched = true;
+      }
+    }
+    if(!matched){
+      return {
+        status:"DEFECT",
+        reason:"UNKNOWN_ELEMENT",
+        element:p,
+        action:"NEUTRALIZE",
+        method:"UNK-PROTO"
+      };
+    }
+  }
 
-    <!-- BLOCK 2: UI-BILD -->
-    <div class="block">
-        <div class="title">UI‑Bild</div>
-        <div class="content">
-            Sichtbare Struktur, Layout, Elemente und Bereiche werden hier beschrieben
-        </div>
-    </div>
+  const unique = [...new Set(found)];
 
-    <!-- BLOCK 3: UI-NOTIZ -->
-    <div class="block">
-        <div class="title">UI‑Notiz</div>
-        <div class="content">
-            Kurze Beobachtung: Was fällt auf, was ist da, was fehlt, was wirkt klar
-        </div>
-    </div>
+  if(unique.length === 1){
+    return {
+      status:"OK",
+      discipline:unique[0].toUpperCase(),
+      messID:unique[0].toUpperCase()+"-ID-X",
+      method:unique[0].toUpperCase()+"-PROTO",
+      action:"PROCESS"
+    };
+  }
 
-</body>
-</html>
-
+  return {
+    status:"DEFECT",
+    reason:"MIXED_DISCIPLINES",
+    disciplines:unique,
+    action:"SEPARATE",
+    method:"META-PROTO"
+  };
+}
