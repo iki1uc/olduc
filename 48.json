@@ -1,19 +1,65 @@
 {
+  "meta": {
+    "id": "RESPO_48",
+    "version": "1.0",
+    "desc": "3×3 System – Content, Language, Perspective",
+    "author": "iki1uc",
+    "engine": "iki7uc-compatible"
+  },
+
   "modules": {
     "content": [
-      { "id": "c1", "title": "Gedanke fällt" },
-      { "id": "c2", "title": "Modus wechselt" },
-      { "id": "c3", "title": "Drei Wege" }
+      {
+        "id": "c1",
+        "title": "Ein Gedanke fällt",
+        "desc": "Ein Moment, in dem etwas klar wird."
+      },
+      {
+        "id": "c2",
+        "title": "Der leise Modus",
+        "desc": "Wenn alles ruhig wird und man hört, was wichtig ist."
+      },
+      {
+        "id": "c3",
+        "title": "Drei Wege im Licht",
+        "desc": "Drei Möglichkeiten, die alle richtig sein können."
+      }
     ],
+
     "language": [
-      { "id": "de", "label": "Deutsch" },
-      { "id": "tr", "label": "Türkçe" },
-      { "id": "en", "label": "English" }
+      {
+        "id": "de",
+        "label": "Deutsch",
+        "style": "klar, modern, direkt"
+      },
+      {
+        "id": "tr",
+        "label": "Türkçe",
+        "style": "akışkan, sıcak, duygulu"
+      },
+      {
+        "id": "en",
+        "label": "English",
+        "style": "neutral, simple, clean"
+      }
     ],
+
     "perspective": [
-      { "id": "p1", "label": "Was passiert?" },
-      { "id": "p2", "label": "Wie fühlt es sich an?" },
-      { "id": "p3", "label": "Was bedeutet es?" }
+      {
+        "id": "p1",
+        "label": "Was passiert?",
+        "type": "action"
+      },
+      {
+        "id": "p2",
+        "label": "Wie fühlt es sich an?",
+        "type": "emotion"
+      },
+      {
+        "id": "p3",
+        "label": "Was bedeutet es?",
+        "type": "meaning"
+      }
     ]
   }
 }
