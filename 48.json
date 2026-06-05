@@ -1,1 +1,73 @@
+{
+  "modules": {
+    "content": [
+      {
+        "id": "content_1",
+        "title": "Ein Gedanke fällt",
+        "desc": "Ein Moment, in dem etwas klar wird."
+      },
+      {
+        "id": "content_2",
+        "title": "Der leise Modus",
+        "desc": "Wenn alles ruhig wird und man hört, was wichtig ist."
+      },
+      {
+        "id": "content_3",
+        "title": "Drei Wege im Licht",
+        "desc": "Drei Möglichkeiten, die alle richtig sein können."
+      }
+    ],
+
+    "language": [
+      {
+        "id": "lang_de",
+        "label": "Deutsch",
+        "style": "leicht, modern, real"
+      },
+      {
+        "id": "lang_tr",
+        "label": "Türkçe",
+        "style": "sıcak, akışkan, duygulu"
+      },
+      {
+        "id": "lang_en",
+        "label": "English",
+        "style": "clear, simple, neutral"
+      }
+    ],
+
+    "perspective": [
+      {
+        "id": "persp_1",
+        "label": "Was passiert?",
+        "type": "action"
+      },
+      {
+        "id": "persp_2",
+        "label": "Wie fühlt es sich an?",
+        "type": "emotion"
+      },
+      {
+        "id": "persp_3",
+        "label": "Was bedeutet es?",
+        "type": "meaning"
+      }
+    ]
+  },
+
+  "x4": {
+    "slots": [
+      "Inhalt",
+      "Sprache",
+      "Perspektive",
+      "Meta"
+    ]
+  },
+
+  "meta": {
+    "free_choice": true,
+    "combinations": "9 Module → frei kombinierbar → 729 mögliche Kombinationen",
+    "philosophy": "Unmögliches minimieren. Mögliches maximieren."
+  }
+}
 
