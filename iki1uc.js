@@ -5,21 +5,31 @@ async function loadYML(path) {
 }
 
 async function iki1uc_measure() {
-  const master = await loadYML("system/iki1uc.yml");
+  try {
+    // Master-YML laden
+    const master = await loadYML("system/iki1uc.yml");
 
-  const results = [];
-  for (const name of master.collect) {
-    const yml = await loadYML(`candidates/${name}/${name}.yml`);
-    results.push({
-      name: yml.respo,
-      base: yml.base,
-      line: yml.line,
-      instance: yml.instance,
-      axis: yml.axis
-    });
+    const results = [];
+
+    // Alle Kandidaten laden
+    for (const name of master.collect) {
+      const yml = await loadYML(`candidates/${name}/${name}.yml`);
+      results.push({
+        name: yml.respo,
+        base: yml.base,
+        line: yml.line,
+        instance: yml.instance,
+        axis: yml.axis
+      });
+    }
+
+    iki1uc_output(results);
+
+  } catch (err) {
+    console.error("Fehler in iki1uc_measure:", err);
+    document.getElementById("iki1uc-output").innerHTML =
+      "<p style='color:red;'>Fehler beim Laden der Daten.</p>";
   }
-
-  iki1uc_output(results);
 }
 
 function iki1uc_output(data) {
@@ -41,4 +51,3 @@ function iki1uc_output(data) {
 }
 
 window.addEventListener("DOMContentLoaded", iki1uc_measure);
-1
