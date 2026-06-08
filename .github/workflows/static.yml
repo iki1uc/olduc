@@ -1,10 +1,6 @@
-module:
-  name: "iki1uc"
-  role: "GEOMETRIE"
-  share: 0.33
-
-technik:
-  formula_fragment: "v_iki1uc / 3"
-  operator_fragment: "1 - v_iki1uc"
-  bind_fragment: "iki1uc hält Spitzen-Seil"
-  question: "Willst du diesen 33%-Teil aktivieren?"
+geometry:
+  quadrat:
+    points: [R1, R2, R3, R4]
+    triangles:
+      - [R1, R2, R3]
+      - [R1, R3, R4]
