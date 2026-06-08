@@ -1,1 +1,8 @@
+respo: "RAWWAR"
+id_op: "RAWWAR"
+base: 11
+
+line: "L(n)=3n"
+instance: "I(n)=base+3n"
+axis: "A(n)=floor(n/3)+1"
 
