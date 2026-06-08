@@ -1,1 +1,42 @@
+async function loadYML(path) {
+  const res = await fetch(path);
+  const text = await res.text();
+  return jsyaml.load(text);
+}
+
+async function iki1uc_start() {
+  const master = await loadYML("system/iki1uc.yml");
+
+  const candidates = [];
+  for (const name of master.collect) {
+    const yml = await loadYML(`candidates/${name}/${name}.yml`);
+    candidates.push(yml);
+  }
+
+  const grid = [
+    candidates.slice(0, 3),
+    candidates.slice(3, 6),
+    candidates.slice(6, 9)
+  ];
+
+  iki1uc_render(grid);
+}
+
+function iki1uc_render(grid) {
+  const el = document.getElementById("iki1uc-output");
+  let html = "<table border='1' cellpadding='8'>";
+
+  for (const row of grid) {
+    html += "<tr>";
+    for (const cell of row) {
+      html += `<td>${cell.respo}<br><small>base=${cell.base}</small></td>`;
+    }
+    html += "</tr>";
+  }
+
+  html += "</table>";
+  el.innerHTML = html;
+}
+
+window.addEventListener("DOMContentLoaded", iki1uc_start);
 
