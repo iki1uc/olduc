@@ -2,12 +2,15 @@ name: iki1uc-Sensorik
 
 on:
   workflow_run:
-    workflows: ["OP-Kern"]
+    workflows: ["OP-Master"]
     types: [completed]
 
 jobs:
   sensorik:
     runs-on: ubuntu-latest
     steps:
-      - name: Sensorik liefert Rohdaten an OP
-        run: echo "iki1uc → OP: Sensorik-Daten übertragen"
+      - name: iki1uc empfängt Kern-ID
+        run: echo "iki1uc: Kern-ID empfangen"
+
+      - name: iki1uc OK + VERIFY
+        run: echo "iki1uc: OK – VERIFY – Dienst aktiv"
