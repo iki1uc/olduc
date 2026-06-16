@@ -1,22 +1,17 @@
-function router5D(data, axisIndex, respoMode) {
-
-  // Achsen: X=0, Y=1, Z=2, R=3, L=4
-  const axes = ["X", "Y", "Z", "R", "L"];
-
-  // RESPO-Schnur entscheidet den Sprung
-  const jump = {
-    "halten": 0,
-    "nachgeben": 1,
-    "ziehen": 2
-  }[respoMode] ?? 0;
-
-  // Achs-Sprung
-  const newAxis = (axisIndex + jump) % 5;
-
-  return {
-    axis: axes[newAxis],
-    jump,
-    newAxis,
-    data
-  };
-}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>iki1uc ROOT</title>
+</head>
+<body>
+  <h1>iki1uc ROOT</h1>
+  <p>Das ist die Startfläche wie bei iki7uc.</p>
+  <ul>
+    <li><a href="NC/RW/state.json">RW / state.json</a></li>
+    <li><a href="NC/SL/edit.json">SL / edit.json</a></li>
+    <li><a href="NC/BK/backup.json">BK / backup.json</a></li>
+    <li><a href="NC/OP/OP.json">OP / OP.json</a></li>
+  </ul>
+</body>
+</html>
