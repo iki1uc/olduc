@@ -1,29 +1,22 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>INDEX – 81(1)</title>
+function router5D(data, axisIndex, respoMode) {
 
-  <script src="/js/js-yaml.min.js"></script>
+  // Achsen: X=0, Y=1, Z=2, R=3, L=4
+  const axes = ["X", "Y", "Z", "R", "L"];
 
-  <script type="module">
-    import { generator } from "/br/generator.js";
-    import { borgVerify } from "/br/borg_verify.js";
-    import { borgAutoScan } from "/br/borg_autoscan.js";
+  // RESPO-Schnur entscheidet den Sprung
+  const jump = {
+    "halten": 0,
+    "nachgeben": 1,
+    "ziehen": 2
+  }[respoMode] ?? 0;
 
-    window.onload = async () => {
+  // Achs-Sprung
+  const newAxis = (axisIndex + jump) % 5;
 
-      const data = await generator();      // Aufstellung 81(1)
-      const htmlScan = borgAutoScan();     // HTML-Material
-      const verify = await borgVerify(data, htmlScan);
-
-      document.getElementById("out").textContent =
-        JSON.stringify({ data, htmlScan, verify }, null, 2);
-    };
-  </script>
-</head>
-
-<body>
-  <pre id="out"></pre>
-</body>
-</html>
+  return {
+    axis: axes[newAxis],
+    jump,
+    newAxis,
+    data
+  };
+}
