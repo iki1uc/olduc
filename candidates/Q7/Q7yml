@@ -1,8 +1,0 @@
-respo: "Q7"
-id_op: "Q7"
-base: 7
-
-line: "L(n)=3n"
-instance: "I(n)=base+3n"
-axis: "A(n)=floor(n/3)+1"
-
