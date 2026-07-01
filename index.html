@@ -1,17 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>iki1uc ROOT</title>
-</head>
-<body>
-  <h1>iki1uc ROOT</h1>
-  <p>Das ist die Startfläche wie bei iki7uc.</p>
-  <ul>
-    <li><a href="NC/RW/state.json">RW / state.json</a></li>
-    <li><a href="NC/SL/edit.json">SL / edit.json</a></li>
-    <li><a href="NC/BK/backup.json">BK / backup.json</a></li>
-    <li><a href="NC/OP/OP.json">OP / OP.json</a></li>
-  </ul>
-</body>
-</html>
+<script type="module">
+  import { Instanz } from "./instanz-core.js";
+  import { mir } from "./mir-core.js";
+  import { respo } from "./respo-core.js";
+  import { argumenteria } from "./argumenteria-core.js";
+  import { erk } from "./erk-core.js";
+  import { dir } from "./dir-core.js";
+  import { REAL } from "./real-core.js";
+
+  const core = Instanz("ID-NEU", "GATE-A", "SAT-OK", "ANKER-ROOT");
+
+  const impulse = mir("Start");
+  const r = respo(core, impulse);
+  const a = argumenteria(core, impulse);
+  const e = erk(a);
+  const d = dir(e);
+  const real = REAL(d);
+
+  document.getElementById("out").textContent =
+    JSON.stringify({ r, a, e, d, real }, null, 2);
+</script>
