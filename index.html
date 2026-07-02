@@ -7,34 +7,16 @@
 
 <body>
 
-<h1>olduc – Stammgast</h1>
+<h1>olduc</h1>
 <pre id="out"></pre>
 
 <script type="module">
-  // Stammgast-Liste (kann später erweitert werden)
-  import { STAMM } from "./stamm-core.js";
+  import { olducCarry } from "./olduc-core.js";
 
-  // QI/IQQ holen
-  import { QI, IQQ } from "../qi-iqq-core.js";
+  const out = olducCarry({ msg: "ALT-MATERIAL" });
 
-  // Prüfen ob Stammgast
-  const isStamm = STAMM.includes(QI);
-
-  if (!isStamm) {
-    // → kein Stammgast: zurück zum Root
-    window.location.href = "../index.html";
-  } else {
-    // → Stammgast: olduc starten
-    import("./olduc-core.js").then(mod => {
-      const out = mod.olducCarry({
-        guest: QI,
-        mode: "ALT-CARRY"
-      });
-
-      document.getElementById("out").textContent =
-        JSON.stringify(out, null, 2);
-    });
-  }
+  document.getElementById("out").textContent =
+    JSON.stringify(out, null, 2);
 </script>
 
 </body>
