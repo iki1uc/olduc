@@ -1,21 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>olduc</title>
+</head>
+
+<body>
+
+<h1>olduc – Stammgast</h1>
+<pre id="out"></pre>
+
 <script type="module">
-  import { Instanz } from "./instanz-core.js";
-  import { mir } from "./mir-core.js";
-  import { respo } from "./respo-core.js";
-  import { argumenteria } from "./argumenteria-core.js";
-  import { erk } from "./erk-core.js";
-  import { dir } from "./dir-core.js";
-  import { REAL } from "./real-core.js";
+  // Stammgast-Liste (kann später erweitert werden)
+  import { STAMM } from "./stamm-core.js";
 
-  const core = Instanz("ID-NEU", "GATE-A", "SAT-OK", "ANKER-ROOT");
+  // QI/IQQ holen
+  import { QI, IQQ } from "../qi-iqq-core.js";
 
-  const impulse = mir("Start");
-  const r = respo(core, impulse);
-  const a = argumenteria(core, impulse);
-  const e = erk(a);
-  const d = dir(e);
-  const real = REAL(d);
+  // Prüfen ob Stammgast
+  const isStamm = STAMM.includes(QI);
 
-  document.getElementById("out").textContent =
-    JSON.stringify({ r, a, e, d, real }, null, 2);
+  if (!isStamm) {
+    // → kein Stammgast: zurück zum Root
+    window.location.href = "../index.html";
+  } else {
+    // → Stammgast: olduc starten
+    import("./olduc-core.js").then(mod => {
+      const out = mod.olducCarry({
+        guest: QI,
+        mode: "ALT-CARRY"
+      });
+
+      document.getElementById("out").textContent =
+        JSON.stringify(out, null, 2);
+    });
+  }
 </script>
+
+</body>
+</html>
