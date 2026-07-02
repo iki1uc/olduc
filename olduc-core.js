@@ -3,7 +3,6 @@ export function olducCarry(input) {
     id: "olduc",
     mode: "ALT-CARRY",
     payload: input,
-    note: "Stammgast erkannt – keine Kontrolle."
+    note: "Der alte Mann trägt alles Alt-Material."
   };
 }
-
