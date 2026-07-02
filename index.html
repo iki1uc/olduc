@@ -7,13 +7,16 @@
 
 <body>
 
-<h1>olduc</h1>
+<h1>olduc – ALT</h1>
 <pre id="out"></pre>
 
 <script type="module">
   import { olducCarry } from "./olduc-core.js";
 
-  const out = olducCarry({ msg: "ALT-MATERIAL" });
+  const out = olducCarry({
+    guest: "ALT",
+    mode: "ALT-CARRY"
+  });
 
   document.getElementById("out").textContent =
     JSON.stringify(out, null, 2);
